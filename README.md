@@ -1,135 +1,137 @@
-# C语言 栈库 (C Stack Library)
+# C Stack Library
 
-一个用C语言实现的通用栈（Stack）数据结构库，采用链表实现，支持多种常用操作。
+A general-purpose stack library in C. It's linked-list based and covers the usual stack operations plus a few extras.
 
-## 功能特性
+## Features
 
-- **基础操作**：创建栈、销毁栈、入栈、出栈、获取栈顶元素
-- **状态查询**：判断栈是否为空、获取栈大小
-- **扩展功能**：
-  - 清空栈（保留栈结构）
-  - 打印栈中所有元素
-  - 获取并出栈（组合操作）
-  - 复制栈
-  - 反转栈
-  - 交换栈顶两个元素
+- Basic operations: create, destroy, push, pop, peek
+- Status checks: isEmpty, size
+- Extras:
+  - Clear the stack (keep the stack object)
+  - Print all elements
+  - Pop and return in one call
+  - Copy a stack
+  - Reverse a stack
+  - Swap the top two elements
 
-## 数据结构
+## Data Structure
 
 ```c
-typedef int Data;  // 数据类型，可自定义修改
+typedef int Data;  // element type; change as needed
 
 struct Node {
-    Data node_data;      // 节点数据
-    struct Node* next;   // 指向下一个节点
+    Data node_data;      // node data
+    struct Node* next;   // next node
 };
 
 struct Stack {
-    Node* top;      // 栈顶指针
-    int size;       // 栈中元素个数
+    Node* top;      // top pointer
+    int size;       // element count
 };
 ```
 
-## API 接口
+## API
 
-### 生命周期管理
+### Lifecycle
 
-| 函数                              | 说明                 |
-| --------------------------------- | -------------------- |
-| `Stack* creatStack(void)`         | 创建一个空栈         |
-| `void destroyStack(Stack* stack)` | 销毁栈，释放所有内存 |
-| `void clear(Stack* stack)`        | 清空栈（保留栈结构） |
+| Function | Description |
+| ------------------------------- | -------------------- |
+| `Stack* creatStack(void)` | Create an empty stack |
+| `void destroyStack(Stack* stack)` | Destroy the stack and free all memory |
+| `void clear(Stack* stack)` | Clear the stack (keep the stack object) |
 
-### 基本操作
+### Basic operations
 
-| 函数                                | 说明                   |
+| Function | Description |
 | ----------------------------------- | ---------------------- |
-| `void push(Stack* stack, Data val)` | 入栈：将元素压入栈顶   |
-| `void pop(Stack* stack)`            | 出栈：移除栈顶元素     |
-| `Data top(Stack* stack)`            | 获取栈顶元素（不出栈） |
-| `bool isEmpty(Stack* stack)`        | 判断栈是否为空         |
-| `int stackSize(Stack* stack)`       | 获取栈中元素个数       |
+| `void push(Stack* stack, Data val)` | Push onto the top |
+| `void pop(Stack* stack)` | Remove the top element |
+| `Data top(Stack* stack)` | Get the top element (without popping) |
+| `bool isEmpty(Stack* stack)` | Check whether the stack is empty |
+| `int stackSize(Stack* stack)` | Get the element count |
 
-### 扩展操作
+### Extra operations
 
-| 函数                                      | 说明                                    |
+| Function | Description |
 | ----------------------------------------- | --------------------------------------- |
-| `void showStack(Stack* stack)`            | 从栈顶到栈底打印栈中所有元素            |
-| `Data getAndPop(Stack* stack)`            | 获取栈顶元素并出栈                      |
-| `void copyStack(Stack* src, Stack* dest)` | 复制栈（从src复制到dest，dest会被清空） |
-| `void reverseStack(Stack* stack)`         | 反转栈                                  |
-| `void swapTopTwo(Stack* stack)`           | 交换栈顶两个元素                        |
+| `void showStack(Stack* stack)` | Print elements from top to bottom |
+| `Data getAndPop(Stack* stack)` | Get the top element and pop it |
+| `void copyStack(Stack* src, Stack* dest)` | Copy src into dest (dest is cleared first) |
+| `void reverseStack(Stack* stack)` | Reverse the stack |
+| `void swapTopTwo(Stack* stack)` | Swap the top two elements |
 
-## 使用示例
+## Example
 
 ```c
 #include <stdio.h>
 
 int main() {
-    // 创建一个栈
+    // Create a stack
     Stack* stack = creatStack();
 
-    // 入栈
+    // Push
     push(stack, 1);
     push(stack, 2);
     push(stack, 3);
 
-    // 打印栈
-    showStack(stack);  // 输出: 3 2 1
+    // Print
+    showStack(stack);  // prints: 3 2 1
 
-    // 获取栈顶元素
+    // Peek
     Data val = top(stack);  // val = 3
 
-    // 出栈
+    // Pop
     pop(stack);
 
-    // 获取栈大小
+    // Size
     int size = stackSize(stack);  // size = 2
 
-    // 销毁栈
+    // Destroy
     destroyStack(stack);
 
     return 0;
 }
 ```
 
-## 编译运行
+## Build and Run
 
 ```bash
-# 使用 GCC 编译
-gcc -o stack_demo 栈库.cpp
+# GCC
+gcc -o stack_demo stack.c
 
-# 运行
+# Run
 ./stack_demo
 ```
 
-## 依赖
+Use your actual source filename if it differs from `stack.c`.
+
+## Dependencies
 
 [![C](https://img.shields.io/badge/C-99%2F11-blue.svg)](https://en.wikipedia.org/wiki/C99)
 [![C++](https://img.shields.io/badge/C%2B%2B-Compatible-blue.svg)](https://isocpp.org/)
 
-- 标准C库：
-  - `<stdio.h>` - 标准输入输出
-  - `<stdlib.h>` - 内存分配
-  - `<stdbool.h>` - 布尔类型支持（C99）
+- Standard C library:
+  - `<stdio.h>` — input/output
+  - `<stdlib.h>` — memory allocation
+  - `<stdbool.h>` — boolean type (C99)
 
-## 自定义数据类型
+## Custom Element Type
 
-默认栈存储的数据类型为 `int`，如需修改，请更改代码中的类型定义：
+By default the stack stores `int`. To store something else, change the typedef:
 
 ```c
-typedef int Data;  // 将 int 改为所需类型，如 double、char* 等
+typedef int Data;  // change to double, char*, etc.
 ```
 
-## 许可证
+## License
 
-本项目开源，可自由使用和修改。
+Open source. Use and modify freely.
 
 ---
 
-## 作者信息
+## Author
 
-**谙弆悕博士（Ailan Anjuxi）**
+**Dr. Ailan Anjuxi (谙弆悕)**
 
-- 📧 邮箱：[anjuxi.ME@outlook.com](mailto:anjuxi.ME@outlook.com)
-- 📞 SIP电话：[sip:anjuxi@sip.linphone.org](sip:anjuxi@sip.linphone.org)
+- Email: [anjuxi.ME@outlook.com](mailto:anjuxi.ME@outlook.com)
+- SIP: [sip:anjuxi@sip.linphone.org](sip:anjuxi@sip.linphone.org)
